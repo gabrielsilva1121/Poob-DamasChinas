@@ -17,8 +17,8 @@ public class TableroDamas extends JPanel implements MouseListener {
         fondoJuego = new JLabel();
         fondoJuego.setIcon(new ImageIcon("tableroJuego.png"));
         this.add(fondoJuego);
-        //fondoJuego.setSize(500,500);
-        fondoJuego.setBounds(0,0,490,490);
+        fondoJuego.setSize(500,500);
+        //fondoJuego.setBounds(0,0,490,490);
 
 
     }

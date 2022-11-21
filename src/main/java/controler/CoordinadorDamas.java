@@ -1,13 +1,17 @@
 package controler;
 
-import Presentation.MenuJuego;
+import Presentation.VentanaOpcionesJuego;
 
 public class CoordinadorDamas {
-    public MenuJuego menuJuego;
+
+
+    public VentanaOpcionesJuego vJuego;
 
     public CoordinadorDamas(){
-        menuJuego = new MenuJuego();
-        menuJuego.setVisible(true);
+        vJuego = new VentanaOpcionesJuego();
+        vJuego.setVisible(true);
+
+        //menuJuego.setVisible(true);
 
     }
 }
