@@ -6,16 +6,20 @@ import java.awt.event.MouseListener;
 
 public class TableroDamas extends JPanel implements MouseListener {
     private JLabel fondoJuego;
+    private boolean comenzado;
 
     public TableroDamas(){
-        this.setSize(1000,1000);
+        this.setSize(500,500);
         this.setLayout(null);
         this.setVisible(true);
         this.setOpaque(false);
+        comenzado = false;
         fondoJuego = new JLabel();
         fondoJuego.setIcon(new ImageIcon("tableroJuego.png"));
         this.add(fondoJuego);
-        fondoJuego.setSize(1000,1000);
+        //fondoJuego.setSize(500,500);
+        fondoJuego.setBounds(0,0,490,490);
+
 
     }
 

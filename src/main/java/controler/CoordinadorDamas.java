@@ -8,5 +8,6 @@ public class CoordinadorDamas {
     public CoordinadorDamas(){
         menuJuego = new MenuJuego();
         menuJuego.setVisible(true);
+
     }
 }
