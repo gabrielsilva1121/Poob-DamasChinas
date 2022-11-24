@@ -29,6 +29,7 @@ public class NuevoJuego extends JDialog implements ActionListener {
 
             rojas = new JLabel("rojas - ");
             negras = new JLabel("negras - ");
+            //comboModos = new JComboBox(modos)
             aceptar = new JButton("comenzar juego ");
             cancelar = new JButton("cancelar ");
             //comboModos.setEditable(false);
@@ -48,7 +49,10 @@ public class NuevoJuego extends JDialog implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource().equals(aceptar)){
+            tableroDamas.comenzarPartida();
         }
+        //comboModos.setSelectedIndex(0);
+        this.dispose();
 
     }
 }
