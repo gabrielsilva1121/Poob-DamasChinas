@@ -4,22 +4,24 @@ import javax.swing.*;
 import javax.swing.ImageIcon;
 
 public abstract class Ficha extends JLabel {
-    ImageIcon Negra_N = new ImageIcon("fichaNegraNatural.png");
+    ImageIcon Negra_N = new ImageIcon("fichaNegra2.png");
 
-    ImageIcon Negra_S = new ImageIcon("fichaNegraSombreada.png");
-    private int x,y;
+    ImageIcon Negra_S = new ImageIcon("fichaNegra2Sombreada.png");
+
+
+    private double x,y;
 
     private boolean seleccion;
-    public Ficha(int x, int y){
+    public Ficha(double x, double y){
         this.x = x;
         this.y = y;
     }
-    public int getXP() {
+    public double getXP() {
         return this.x;
     }
 
 
-    public int getYP() {
+    public double getYP() {
         return this.y;
     }
 
@@ -29,7 +31,7 @@ public abstract class Ficha extends JLabel {
         return seleccion;
     }
 
-    public void moverFicha(int x, int y){
+    public void moverFicha(double x, double y){
         this.x = x;
         this.y = y;
     }
@@ -37,4 +39,6 @@ public abstract class Ficha extends JLabel {
     public abstract  void seleccionar();
 
     public abstract  void deseleccionar();
+
+    public abstract  boolean esNegra();
 }

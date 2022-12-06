@@ -6,6 +6,8 @@ public class FichaNegra extends Ficha{
 
     private JLabel fichaNegra;
 
+
+
     private FichaNegra prev,next;
 
     public FichaNegra(int x,int y){
@@ -43,5 +45,9 @@ public class FichaNegra extends Ficha{
     public void setNext(FichaNegra next){
         this.next = next;
     }
+
+    @Override
+    public boolean esNegra() {return  true;}
+
 
 }

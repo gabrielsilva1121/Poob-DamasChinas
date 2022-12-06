@@ -24,7 +24,7 @@ public class VentanaOpcionesJuego extends JFrame implements ActionListener {
         super("Proyecto Juego Damas");
 
         //-------------------//
-        this.setSize(500,560);
+        this.setSize(500,560); //jFrame que contiene el tablero
         this.setLayout(null);
         this.setVisible(true);
         this.setResizable(false);
@@ -48,7 +48,7 @@ public class VentanaOpcionesJuego extends JFrame implements ActionListener {
 
                 tableroDamas = new TableroDamas();
                 add(tableroDamas, BorderLayout.CENTER);
-                tableroDamas.setSize(500,500);
+                tableroDamas.setBounds(0,-10 ,500,500); // imagen del tablero
                 tableroDamas.addMouseListener(tableroDamas);
 
                 nuevo  = new NuevoJuego(tableroDamas);

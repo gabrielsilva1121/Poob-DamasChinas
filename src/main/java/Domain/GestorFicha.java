@@ -56,30 +56,66 @@ public class GestorFicha {
         return todas;
     }
 
-    public void  seleccionarFicha(int x, int y){
+    public void  seleccionarFicha(double x, double y){
         Ficha  fichita;
         fichita = buscarFicha(x,y);
         if(fichita != null){
+            fichita.isSeleccion();
             if(fichita.isSeleccion()){
                 fichita.deseleccionar();
-                fichaSeleccionada = fichita;
+                fichaSeleccionada = null;
+            }else{
+                if(fichaSeleccionada == null){
+                    fichita.seleccionar();
+                    fichaSeleccionada = fichita;
+                }
             }
         }
 
     }
 
-    public Ficha buscarFicha(int x, int y){
+    public Ficha buscarFicha(double x, double y){
+
+
 
         int i;
         FichaNegra tempN = inicioN;
 
-        for (i = 0; i < fichasN; i++){
-            if(tempN.getXP() == x && tempN.getYP() == y){
+        for (i = 0; i < fichasN ; i++){
+            double valorXp =  tempN.getXP();
+            double valorYp =  tempN.getYP();
+            if(tempN.getXP() == x  && tempN.getYP() == y){
                 return tempN;
             }
             tempN = tempN.getNext();
         }
         return  null;
+    }
+
+    public boolean validarTurno(int x,int y){
+        x = (int) (x/60 + 1);
+        y = (int) (8 - y / 60);
+        Ficha fichaMovida = buscarFicha(x,y);
+        if(fichaMovida != null){
+            if(fichaMovida.esNegra()){
+                this.seleccionarFicha(x,y);
+            }
+        }
+        return  false;
+    }
+
+    public Ficha[] fichasNegras(){
+        Ficha[] negras = new Ficha[fichasN];
+        FichaNegra temp = inicioN;
+
+        int i = 0;
+
+        while (temp != null){
+            negras[i++] = temp;
+            temp = temp.getNext();
+        }
+
+        return negras;
     }
 
 }
