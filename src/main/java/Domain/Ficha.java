@@ -8,6 +8,10 @@ public abstract class Ficha extends JLabel {
 
     ImageIcon Negra_S = new ImageIcon("fichaNegra2Sombreada.png");
 
+    ImageIcon Roja_N = new ImageIcon("fichaRoja.png");
+
+    ImageIcon Roja_S = new ImageIcon("fichaRoja2Sombreada.png");
+
 
     private double x,y;
 
