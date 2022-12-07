@@ -117,12 +117,45 @@ public class GestorFicha {
 
     }
 
+    public boolean moverPieza(int x, int y){
+        int a, b;
+        a = (int) (x - fichaSeleccionada.getXP());
+        b = (int) (y - fichaSeleccionada.getYP());
+        if(!fichaSeleccionada.esNegra()){
+            if( y > fichaSeleccionada.getYP()){
+                fichaSeleccionada.setLocation((x-1) * 60, (8-y) * 60);
+                fichaSeleccionada.moverFicha(x,y);
+                fichaSeleccionada.deseleccionar();
+                fichaSeleccionada = null;
+                return true;
+
+
+            }
+
+            return false;
+
+        }else{
+            if(y < fichaSeleccionada.getYP()){
+                fichaSeleccionada.setLocation((x-1) * 60, (8-y) * 60);
+                fichaSeleccionada.moverFicha(x,y);
+                fichaSeleccionada.deseleccionar();
+                fichaSeleccionada = null;
+                return true;
+
+            }
+            return false;
+        }
+
+
+
+    }
+
     public Ficha buscarFicha(double x, double y){
         int i;
         FichaNegra tempN = inicioN;
         FichaRoja tempR = inicioR;
 
-        for (i = 0; i < fichasN+fichasR ; i++){
+        for (i = 0; i < (fichasN + fichasR) ; i++){
             //(double valorXp =  tempN.getXP();
             //double valorYp =  tempN.getYP();
             if(tempR != null){
@@ -152,6 +185,11 @@ public class GestorFicha {
                 this.seleccionarFicha(x,y);
             }else if (!fichaMovida.esNegra()){
                 this.seleccionarFicha(x,y);
+            }
+        }
+        if (fichaSeleccionada != null){
+            if (moverPieza(x,y)){
+                return true;
             }
         }
         return  false;
