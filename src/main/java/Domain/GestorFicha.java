@@ -123,30 +123,41 @@ public class GestorFicha {
 
     }
 
+    public int signo(int x){
+        if(x < 0){
+            x = x * -1;
+        }
+        return x;
+    }
+
     public boolean moverPieza(int x, int y){
         int a, b;
         a = (int) (x - fichaSeleccionada.getXP());
         b = (int) (y - fichaSeleccionada.getYP());
-        if(!fichaSeleccionada.esNegra()){
-            if( y > fichaSeleccionada.getYP()){
-                fichaSeleccionada.setLocation((x-1) * 60, (8-y) * 60);
-                fichaSeleccionada.moverFicha(x,y);
-                fichaSeleccionada.deseleccionar();
-                fichaSeleccionada = null;
-                return true;
 
+        if(!fichaSeleccionada.esNegra()){
+            if (signo(a) == 1 && signo(b)  == 1){
+                if( y > fichaSeleccionada.getYP()) {
+                    fichaSeleccionada.setLocation((x - 1) * 60, (8 - y) * 60);
+                    fichaSeleccionada.moverFicha(x, y);
+                    fichaSeleccionada.deseleccionar();
+                    fichaSeleccionada = null;
+                    return true;
+                }
 
             }
 
             return false;
 
         }else{
-            if(y < fichaSeleccionada.getYP()){
-                fichaSeleccionada.setLocation((x-1) * 60, (8-y) * 60);
-                fichaSeleccionada.moverFicha(x,y);
-                fichaSeleccionada.deseleccionar();
-                fichaSeleccionada = null;
-                return true;
+            if(signo(a) == 1 && signo(b) == 1){
+                if(y < fichaSeleccionada.getYP()) {
+                    fichaSeleccionada.setLocation((x - 1) * 60, (8 - y) * 60);
+                    fichaSeleccionada.moverFicha(x, y);
+                    fichaSeleccionada.deseleccionar();
+                    fichaSeleccionada = null;
+                    return true;
+                }
 
             }
             return false;
