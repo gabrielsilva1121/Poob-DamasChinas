@@ -10,12 +10,18 @@ public class GestorFicha {
 
     private Ficha fichaSeleccionada;
 
+    private boolean turnoR;
+
     public GestorFicha(){
         inicioN = null;
         inicioR = null;
         agregarNegras();
         agregarRojas();
     }
+
+    public boolean getTurnoR() {return (this.turnoR);}
+
+    public void setTurnoR(boolean turnoR) {this.turnoR = turnoR;}
 
     public void agregarNegras(){
         int i,j;
@@ -181,14 +187,15 @@ public class GestorFicha {
         y = (int) (8 - y / 60);
         Ficha fichaMovida = buscarFicha(x,y);
         if(fichaMovida != null){
-            if(fichaMovida.esNegra()){
+            if(fichaMovida.esNegra() && !turnoR){
                 this.seleccionarFicha(x,y);
-            }else if (!fichaMovida.esNegra()){
+            }else if (!fichaMovida.esNegra() && turnoR){
                 this.seleccionarFicha(x,y);
             }
         }
         if (fichaSeleccionada != null){
             if (moverPieza(x,y)){
+                turnoR = !turnoR;
                 return true;
             }
         }
