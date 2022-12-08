@@ -130,20 +130,63 @@ public class GestorFicha {
         return x;
     }
 
+    public  void comerNegra(FichaNegra comida){
+        if(comida.getPrev() != null) {
+            comida.getPrev().setNext(comida.getNext());
+        }else{
+            inicioN = inicioN.getNext();
+        }
+        if(comida.getNext() != null){
+            comida.getNext().setPrev(comida.getPrev());
+        }
+        fichasN--;
+    }
+
     public boolean moverPieza(int x, int y){
         int a, b;
         a = (int) (x - fichaSeleccionada.getXP());
         b = (int) (y - fichaSeleccionada.getYP());
 
         if(!fichaSeleccionada.esNegra()){
-            if (signo(a) == 1 && signo(b)  == 1){
-                if( y > fichaSeleccionada.getYP()) {
-                    fichaSeleccionada.setLocation((x - 1) * 60, (8 - y) * 60);
-                    fichaSeleccionada.moverFicha(x, y);
+            if(!puedeComer(fichaSeleccionada)) {
+                if (signo(a) == 1 && signo(b) == 1) {
+                    if (y > fichaSeleccionada.getYP()) {
+                        fichaSeleccionada.setLocation((x - 1) * 60, (8 - y) * 60);
+                        fichaSeleccionada.moverFicha(x, y);
+                        fichaSeleccionada.deseleccionar();
+                        fichaSeleccionada = null;
+                        return true;
+                    }
+
+                }
+            }
+            if(a > 0 && b > 0){
+                if (buscarFicha(x-1,y-1)!= null && buscarFicha(x-1, y-1).esNegra()){
+                    comerNegra((FichaNegra) buscarFicha(x-1, y - 1) );
+                    fichaSeleccionada.setLocation((x-1)*60,(8-y)*60);
+                    fichaSeleccionada.moverFicha(x,y);
                     fichaSeleccionada.deseleccionar();
+                    if(puedeComer(fichaSeleccionada)){
+                        turnoR =! turnoR;
+                    }
                     fichaSeleccionada = null;
                     return true;
                 }
+                return false;
+            }
+            if(a < 0 && b > 0){
+                if (buscarFicha(x+1,y-1)!= null && buscarFicha(x+1, y-1).esNegra()){
+                    comerNegra((FichaNegra) buscarFicha(x+1, y - 1) );
+                    fichaSeleccionada.setLocation((x-1)*60,(8-y)*60);
+                    fichaSeleccionada.moverFicha(x,y);
+                    fichaSeleccionada.deseleccionar();
+                    if(puedeComer(fichaSeleccionada)){
+                        turnoR =! turnoR;
+                    }
+                    fichaSeleccionada = null;
+                    return true;
+                }
+                return  false;
 
             }
 
@@ -191,6 +234,56 @@ public class GestorFicha {
 
         }
         return  null;
+    }
+
+    public  boolean puedeComer(Ficha ficha){
+        if (ficha.getXP() < 7 && ficha.getYP() < 7){
+            if(buscarFicha(ficha.getXP()+ 1,ficha.getYP()+1) != null && !buscarFicha(ficha.getXP()+ 1,ficha.getYP()+1).esNegra()!= !ficha.esNegra()){
+                if(buscarFicha(ficha.getXP()+2,ficha.getYP()+2) == null){
+                    if(!ficha.esNegra()){
+                        return true;
+                    }
+                }
+
+            }
+
+        }
+        if (ficha.getXP() > 2 && ficha.getYP() < 7){
+            if(buscarFicha(ficha.getXP() -1,ficha.getYP()+1) != null && !buscarFicha(ficha.getXP() - 1,ficha.getYP()+1).esNegra()!= !ficha.esNegra()){
+                if(buscarFicha(ficha.getXP() - 2,ficha.getYP()+2) == null){
+                    if(!ficha.esNegra()){
+                        return true;
+                    }
+                }
+
+            }
+
+        }
+        if (ficha.getXP() < 7 && ficha.getYP() > 2){
+            if(buscarFicha(ficha.getXP() + 1,ficha.getYP() - 1) != null && !buscarFicha(ficha.getXP() + 1,ficha.getYP()-1).esNegra()!= !ficha.esNegra()){
+                if(buscarFicha(ficha.getXP() + 2,ficha.getYP()-2) == null){
+                    if(ficha.esNegra()){
+                        return true;
+                    }
+                }
+
+            }
+
+        }
+        if (ficha.getXP() > 2 && ficha.getYP() > 2){
+            if(buscarFicha(ficha.getXP() - 1,ficha.getYP() - 1) != null && !buscarFicha(ficha.getXP() - 1,ficha.getYP()-1).esNegra()!= !ficha.esNegra()){
+                if(buscarFicha(ficha.getXP() - 2,ficha.getYP()-2) == null){
+                    if(ficha.esNegra()){
+                        return true;
+                    }
+                }
+
+            }
+
+        }
+
+
+        return false;
     }
 
     public boolean validarTurno(int x,int y){
