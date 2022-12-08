@@ -142,6 +142,18 @@ public class GestorFicha {
         fichasN--;
     }
 
+    public void comerRoja(FichaRoja comida){
+        if(comida.getPrev() != null){
+            comida.getPrev().setNext(comida.getNext());
+        }else{
+            inicioR = inicioR.getNext();
+        }
+        if (comida.getNext() != null){
+            comida.getNext().setPrev(comida.getPrev());
+        }
+        fichasR --;
+    }
+
     public boolean moverPieza(int x, int y){
         int a, b;
         a = (int) (x - fichaSeleccionada.getXP());
@@ -161,7 +173,7 @@ public class GestorFicha {
                 }
             }
             if(a > 0 && b > 0){
-                if (buscarFicha(x-1,y-1)!= null && buscarFicha(x-1, y-1).esNegra()){
+                if (buscarFicha(x - 1,y - 1)!= null && buscarFicha(x-1, y-1).esNegra()){
                     comerNegra((FichaNegra) buscarFicha(x-1, y - 1) );
                     fichaSeleccionada.setLocation((x-1)*60,(8-y)*60);
                     fichaSeleccionada.moverFicha(x,y);
@@ -193,16 +205,47 @@ public class GestorFicha {
             return false;
 
         }else{
-            if(signo(a) == 1 && signo(b) == 1){
-                if(y < fichaSeleccionada.getYP()) {
-                    fichaSeleccionada.setLocation((x - 1) * 60, (8 - y) * 60);
-                    fichaSeleccionada.moverFicha(x, y);
+            if(!puedeComer(fichaSeleccionada)){
+                if(signo(a) == 1 && signo(b) == 1) {
+                    if (y < fichaSeleccionada.getYP()) {
+                        fichaSeleccionada.setLocation((x - 1) * 60, (8 - y) * 60);
+                        fichaSeleccionada.moverFicha(x, y);
+                        fichaSeleccionada.deseleccionar();
+                        fichaSeleccionada = null;
+                        return true;
+                    }
+                }
+            }
+            if(a < 0 && b < 0){
+                if (buscarFicha(x+1,y+1)!= null && !buscarFicha(x+1, y+1).esNegra()){
+                    comerRoja((FichaRoja) buscarFicha(x+1, y + 1) );
+                    fichaSeleccionada.setLocation((x-1)*60,(8-y)*60);
+                    fichaSeleccionada.moverFicha(x,y);
                     fichaSeleccionada.deseleccionar();
+                    if(puedeComer(fichaSeleccionada)){
+                        turnoR =! turnoR;
+                    }
                     fichaSeleccionada = null;
                     return true;
                 }
+                return false;
+            }
+            if(a > 0 && b < 0){
+                if (buscarFicha(x-1,y+1)!= null && !buscarFicha(x+1, y-1).esNegra()){
+                    comerRoja((FichaRoja) buscarFicha(x- 1, y + 1) );
+                    fichaSeleccionada.setLocation((x-1)*60,(8-y)*60);
+                    fichaSeleccionada.moverFicha(x,y);
+                    fichaSeleccionada.deseleccionar();
+                    if(puedeComer(fichaSeleccionada)){
+                        turnoR =! turnoR;
+                    }
+                    fichaSeleccionada = null;
+                    return true;
+                }
+                return  false;
 
             }
+
             return false;
         }
 
