@@ -5,7 +5,7 @@ import javax.swing.*;
 
 
 
-public class FichaRoja extends Ficha{
+public  class FichaRoja extends Ficha{
     private JLabel fichaRoja;
 
 
@@ -21,14 +21,25 @@ public class FichaRoja extends Ficha{
     @Override
     public void seleccionar() {
         super.select(true);
-        super.setIcon(Roja_S);
+        if (this.getCorona()){
+            super.setIcon(Roja_RS);
+        }else{
+            super.setIcon(Roja_S);
+        }
+
 
     }
 
     @Override
     public void deseleccionar() {
         super.select(false);
-        super.setIcon(Roja_N);
+        if(this.getCorona()){
+            super.setIcon(Roja_RN);
+        }else{
+            super.setIcon(Roja_N);
+        }
+
+
 
     }
 
@@ -53,8 +64,9 @@ public class FichaRoja extends Ficha{
         this.next = next;
     }
 
-
-
-
-
+    @Override
+    public void coronar() {
+        super.corona();
+        super.setIcon(Roja_RN);
+    }
 }

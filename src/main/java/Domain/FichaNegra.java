@@ -19,15 +19,31 @@ public class FichaNegra extends Ficha{
     @Override
     public void seleccionar() {
         super.select(true);
-        super.setIcon(Negra_S);
+        if(this.getCorona()){
+            super.setIcon(Negra_RS);
+        }else{
+            super.setIcon(Negra_S);
+        }
 
     }
 
     @Override
     public void deseleccionar() {
         super.select(false);
-        super.setIcon(Negra_N);
 
+
+        if(this.getCorona()){
+            super.setIcon(Negra_RN);
+        } else{
+            super.setIcon(Negra_N);
+        }
+
+    }
+
+    @Override
+    public void coronar() {
+        super.corona();
+        super.setIcon(Negra_RN);
     }
 
     public FichaNegra getNext() {

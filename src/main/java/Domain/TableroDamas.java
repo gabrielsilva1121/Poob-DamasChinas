@@ -33,6 +33,22 @@ public class TableroDamas extends JPanel implements MouseListener {
         repaint();
     }
 
+    /*public void definirGanador(){
+        if(fichas.getFichasR() == fichas.getFichasN()){
+            if(fichas.fichasNR()==fichas.fichasRR()){
+                JOptionPane.showMessageDialog(this,"Empate!!!");
+            }else if(fichas.fichasNR()<fichas.fichasRR())
+                JOptionPane.showMessageDialog(this,"Rojas Ganan!");
+            else
+                JOptionPane.showMessageDialog(this,"Negras Ganan!");
+        }else if(fichas.getFichasN()<fichas.getFichasR()){
+            JOptionPane.showMessageDialog(this,"Rojas Ganan!");
+        }else
+            JOptionPane.showMessageDialog(this,"Negras Ganan!");
+        comenzado = false;
+    }*/
+
+
     public void pintar(){
         Ficha[] f = ficha.getFichas();
         removeAll();
@@ -62,6 +78,9 @@ public class TableroDamas extends JPanel implements MouseListener {
             System.out.println(e.getY());
             if (ficha.validarTurno(e.getX(),e.getY())){
                 pintar();
+            }
+            if (!ficha.hayMoviento()){
+                //definirGanador();
             }
         }
 
