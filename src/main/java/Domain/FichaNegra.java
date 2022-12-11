@@ -21,6 +21,8 @@ public class FichaNegra extends Ficha{
         super.select(true);
         if(this.getCorona()){
             super.setIcon(Negra_RS);
+        }else if(getNinja()){
+            super.setIcon(Negra_JS);
         }else{
             super.setIcon(Negra_S);
         }
@@ -34,7 +36,9 @@ public class FichaNegra extends Ficha{
 
         if(this.getCorona()){
             super.setIcon(Negra_RN);
-        } else{
+        } else if(this.getNinja()){
+            super.setIcon(Negra_JN);
+        }else{
             super.setIcon(Negra_N);
         }
 
@@ -44,6 +48,12 @@ public class FichaNegra extends Ficha{
     public void coronar() {
         super.corona();
         super.setIcon(Negra_RN);
+    }
+
+    @Override
+    public void ninjar() {
+        super.ninja();
+        super.setIcon(Negra_JN);
     }
 
     public FichaNegra getNext() {

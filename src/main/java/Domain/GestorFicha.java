@@ -207,7 +207,7 @@ public class GestorFicha {
                 if (!puedeComer(fichaSeleccionada)) {
                     if (signo(a) == 1 && signo(b) == 1) {
 
-                        if (fichaSeleccionada.getCorona()) {
+                        if (fichaSeleccionada.getCorona() || fichaSeleccionada.getNinja()) {
                             fichaSeleccionada.setLocation((x - 1) * 60, (8 - y) * 60);
                             fichaSeleccionada.moverFicha(x, y);
                             fichaSeleccionada.deseleccionar();
@@ -215,12 +215,16 @@ public class GestorFicha {
                             return true;
                         }
 
+
                         if (y > fichaSeleccionada.getYP()) {
                             fichaSeleccionada.setLocation((x - 1) * 60, (8 - y) * 60);
                             fichaSeleccionada.moverFicha(x, y);
                             fichaSeleccionada.deseleccionar();
                             if( y == 8){
                                 fichaSeleccionada.coronar();
+                            }
+                            if(y == 7){
+                                fichaSeleccionada.ninjar();
                             }
                             fichaSeleccionada = null;
                             return true;
@@ -237,6 +241,9 @@ public class GestorFicha {
                         fichaSeleccionada.deseleccionar();
                         if( y  == 8){
                             fichaSeleccionada.coronar();
+                        }
+                        if(y == 7 ){
+                            fichaSeleccionada.ninjar();
                         }
                         if (puedeComer(fichaSeleccionada)) {
                             turnoR = !turnoR;
@@ -255,6 +262,9 @@ public class GestorFicha {
                         if( y == 8){
                             fichaSeleccionada.coronar();
                         }
+                        if(y == 7 ){
+                            fichaSeleccionada.ninjar();
+                        }
                         if (puedeComer(fichaSeleccionada)) {
                             turnoR = !turnoR;
                         }
@@ -264,7 +274,7 @@ public class GestorFicha {
                     return false;
 
                 }
-                if(fichaSeleccionada.getCorona()){
+                if(fichaSeleccionada.getCorona() || fichaSeleccionada.getNinja()){
                     if( a > 0 && b < 0){
                         if(buscarFicha(x-1,y+1) != null && buscarFicha(x-1,y+1).esNegra()){
                             comerNegra((FichaNegra)buscarFicha(x-1,y+1));
@@ -301,7 +311,7 @@ public class GestorFicha {
             } else {
                 if (!puedeComer(fichaSeleccionada)) {
                     if (signo(a) == 1 && signo(b) == 1) {
-                        if(fichaSeleccionada.getCorona()){
+                        if(fichaSeleccionada.getCorona() || fichaSeleccionada.getNinja()){
                             fichaSeleccionada.setLocation((x-1)*60,(8-y)*60);
                             fichaSeleccionada.moverFicha(x,y);
                             fichaSeleccionada.deseleccionar();
@@ -314,6 +324,9 @@ public class GestorFicha {
                             fichaSeleccionada.deseleccionar();
                             if(y == 1){
                                 fichaSeleccionada.coronar();
+                            }
+                            if(y == 2 ){
+                                fichaSeleccionada.ninjar();
                             }
                             fichaSeleccionada = null;
                             return true;
@@ -329,6 +342,9 @@ public class GestorFicha {
                         fichaSeleccionada.deseleccionar();
                         if(y == 1){
                             fichaSeleccionada.coronar();
+                        }
+                        if(y == 2 ){
+                            fichaSeleccionada.ninjar();
                         }
                         if (puedeComer(fichaSeleccionada)) {
                             turnoR = !turnoR;
@@ -347,6 +363,9 @@ public class GestorFicha {
                         if( y == 1){
                             fichaSeleccionada.coronar();
                         }
+                        if(y == 2 ){
+                            fichaSeleccionada.ninjar();
+                        }
                         if (puedeComer(fichaSeleccionada)) {
                             turnoR = !turnoR;
                         }
@@ -356,7 +375,7 @@ public class GestorFicha {
                     return false;
 
                 }
-                if(fichaSeleccionada.getCorona()){
+                if(fichaSeleccionada.getCorona() || fichaSeleccionada.getNinja()){
                     if(a > 0 && b > 0){
                         if(buscarFicha(x-1,y-1)!=null&& !buscarFicha(x-1,y-1).esNegra()){
                             comerRoja((FichaRoja)buscarFicha(x-1,y-1));
@@ -430,7 +449,7 @@ public class GestorFicha {
                 if(buscarFicha(ficha.getXP()+2,ficha.getYP()+2) == null){
                     if(!ficha.esNegra()){
                         return true;
-                    } else if (ficha.getCorona()) {
+                    } else if (ficha.getCorona() || ficha.getNinja()) {
                         return true;
 
                     }
@@ -444,7 +463,7 @@ public class GestorFicha {
                 if(buscarFicha(ficha.getXP() - 2,ficha.getYP()+2) == null){
                     if(!ficha.esNegra()){
                         return true;
-                    } else if (ficha.getCorona()) {
+                    } else if (ficha.getCorona() || ficha.getNinja()) {
                         return true;
 
                     }
@@ -458,7 +477,7 @@ public class GestorFicha {
                 if(buscarFicha(ficha.getXP() + 2,ficha.getYP()-2) == null){
                     if(ficha.esNegra()){
                         return true;
-                    }else if (ficha.getCorona()){
+                    }else if (ficha.getCorona() || ficha.getNinja()){
                         return true;
                     }
                 }
@@ -471,7 +490,7 @@ public class GestorFicha {
                 if(buscarFicha(ficha.getXP() - 2,ficha.getYP()-2) == null){
                     if(ficha.esNegra()){
                         return true;
-                    } else if (ficha.getCorona()) {
+                    } else if (ficha.getCorona() || ficha.getNinja()) {
                         return true;
 
                     }
@@ -531,7 +550,7 @@ public class GestorFicha {
 
         Ficha fichaNegra = new FichaNegra(1,1);
 
-        if(ficha.getCorona()){
+        if(ficha.getCorona() || ficha.getNinja()){
             if(!ficha.esNegra()){
                 if(ficha.getYP()>1&&ficha.getXP()<8&&(fichaNegra = buscarFicha(ficha.getXP()+1,ficha.getYP()-1))==null)
                     return true;

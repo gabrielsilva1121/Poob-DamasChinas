@@ -23,6 +23,8 @@ public  class FichaRoja extends Ficha{
         super.select(true);
         if (this.getCorona()){
             super.setIcon(Roja_RS);
+        }else if(this.getNinja()){
+            super.setIcon(Roja_JS);
         }else{
             super.setIcon(Roja_S);
         }
@@ -35,6 +37,8 @@ public  class FichaRoja extends Ficha{
         super.select(false);
         if(this.getCorona()){
             super.setIcon(Roja_RN);
+        }else if(this.getNinja()){
+            super.setIcon(Roja_JN);
         }else{
             super.setIcon(Roja_N);
         }
@@ -68,5 +72,11 @@ public  class FichaRoja extends Ficha{
     public void coronar() {
         super.corona();
         super.setIcon(Roja_RN);
+    }
+
+    @Override
+    public void ninjar() {
+        super.ninja();
+        super.setIcon(Roja_JN);
     }
 }
