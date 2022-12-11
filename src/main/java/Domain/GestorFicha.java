@@ -206,19 +206,20 @@ public class GestorFicha {
             if (!fichaSeleccionada.esNegra()) {
                 if (!puedeComer(fichaSeleccionada)) {
                     if (signo(a) == 1 && signo(b) == 1) {
-                        if(fichaSeleccionada.getCorona()){
-                            fichaSeleccionada.setLocation((x-1)*60,(8-y)*60);
-                            fichaSeleccionada.moverFicha(x,y);
+
+                        if (fichaSeleccionada.getCorona()) {
+                            fichaSeleccionada.setLocation((x - 1) * 60, (8 - y) * 60);
+                            fichaSeleccionada.moverFicha(x, y);
                             fichaSeleccionada.deseleccionar();
                             fichaSeleccionada = null;
-                            return  true;
-
+                            return true;
                         }
+
                         if (y > fichaSeleccionada.getYP()) {
                             fichaSeleccionada.setLocation((x - 1) * 60, (8 - y) * 60);
                             fichaSeleccionada.moverFicha(x, y);
                             fichaSeleccionada.deseleccionar();
-                            if( y == 5){
+                            if( y == 8){
                                 fichaSeleccionada.coronar();
                             }
                             fichaSeleccionada = null;
@@ -234,7 +235,7 @@ public class GestorFicha {
                         fichaSeleccionada.setLocation((x - 1) * 60, (8 - y) * 60);
                         fichaSeleccionada.moverFicha(x, y);
                         fichaSeleccionada.deseleccionar();
-                        if( y  == 5){
+                        if( y  == 8){
                             fichaSeleccionada.coronar();
                         }
                         if (puedeComer(fichaSeleccionada)) {
@@ -251,7 +252,7 @@ public class GestorFicha {
                         fichaSeleccionada.setLocation((x - 1) * 60, (8 - y) * 60);
                         fichaSeleccionada.moverFicha(x, y);
                         fichaSeleccionada.deseleccionar();
-                        if( y == 5){
+                        if( y == 8){
                             fichaSeleccionada.coronar();
                         }
                         if (puedeComer(fichaSeleccionada)) {
@@ -300,10 +301,20 @@ public class GestorFicha {
             } else {
                 if (!puedeComer(fichaSeleccionada)) {
                     if (signo(a) == 1 && signo(b) == 1) {
+                        if(fichaSeleccionada.getCorona()){
+                            fichaSeleccionada.setLocation((x-1)*60,(8-y)*60);
+                            fichaSeleccionada.moverFicha(x,y);
+                            fichaSeleccionada.deseleccionar();
+                            fichaSeleccionada = null;
+
+                        }
                         if (y < fichaSeleccionada.getYP()) {
                             fichaSeleccionada.setLocation((x - 1) * 60, (8 - y) * 60);
                             fichaSeleccionada.moverFicha(x, y);
                             fichaSeleccionada.deseleccionar();
+                            if(y == 1){
+                                fichaSeleccionada.coronar();
+                            }
                             fichaSeleccionada = null;
                             return true;
                         }
@@ -316,6 +327,9 @@ public class GestorFicha {
                         fichaSeleccionada.setLocation((x - 1) * 60, (8 - y) * 60);
                         fichaSeleccionada.moverFicha(x, y);
                         fichaSeleccionada.deseleccionar();
+                        if(y == 1){
+                            fichaSeleccionada.coronar();
+                        }
                         if (puedeComer(fichaSeleccionada)) {
                             turnoR = !turnoR;
                         }
@@ -330,6 +344,9 @@ public class GestorFicha {
                         fichaSeleccionada.setLocation((x - 1) * 60, (8 - y) * 60);
                         fichaSeleccionada.moverFicha(x, y);
                         fichaSeleccionada.deseleccionar();
+                        if( y == 1){
+                            fichaSeleccionada.coronar();
+                        }
                         if (puedeComer(fichaSeleccionada)) {
                             turnoR = !turnoR;
                         }
@@ -339,9 +356,42 @@ public class GestorFicha {
                     return false;
 
                 }
+                if(fichaSeleccionada.getCorona()){
+                    if(a > 0 && b > 0){
+                        if(buscarFicha(x-1,y-1)!=null&& !buscarFicha(x-1,y-1).esNegra()){
+                            comerRoja((FichaRoja)buscarFicha(x-1,y-1));
+                            fichaSeleccionada.setLocation((x-1)*60,(8-y)*60);
+                            fichaSeleccionada.moverFicha(x,y);
+                            fichaSeleccionada.deseleccionar();
+                            if(puedeComer(fichaSeleccionada)){
+                                turnoR =! turnoR;
+                            }
+                            fichaSeleccionada = null;
+                            return true;
+                        }
+                        return false;
 
-                return false;
+                    }
+                    if(a < 0 && b > 0){
+                        if(buscarFicha(x+1,y-1)!=null&& !buscarFicha(x+1,y-1).esNegra()){
+                            comerRoja((FichaRoja)buscarFicha(x+1,y-1));
+                            fichaSeleccionada.setLocation((x-1)*60,(8-y)*60);
+                            fichaSeleccionada.moverFicha(x,y);
+                            fichaSeleccionada.deseleccionar();
+                            if(puedeComer(fichaSeleccionada)){
+                                turnoR =! turnoR;
+                            }
+                            fichaSeleccionada = null;
+                            return true;
+                        }
+                        return false;
+
+                    }
+                }
+
+
             }
+            return false;
 
 
         }
@@ -380,6 +430,9 @@ public class GestorFicha {
                 if(buscarFicha(ficha.getXP()+2,ficha.getYP()+2) == null){
                     if(!ficha.esNegra()){
                         return true;
+                    } else if (ficha.getCorona()) {
+                        return true;
+
                     }
                 }
 
@@ -391,6 +444,9 @@ public class GestorFicha {
                 if(buscarFicha(ficha.getXP() - 2,ficha.getYP()+2) == null){
                     if(!ficha.esNegra()){
                         return true;
+                    } else if (ficha.getCorona()) {
+                        return true;
+
                     }
                 }
 
@@ -401,6 +457,8 @@ public class GestorFicha {
             if(buscarFicha(ficha.getXP() + 1,ficha.getYP() - 1) != null && !buscarFicha(ficha.getXP() + 1,ficha.getYP()-1).esNegra()!= !ficha.esNegra()){
                 if(buscarFicha(ficha.getXP() + 2,ficha.getYP()-2) == null){
                     if(ficha.esNegra()){
+                        return true;
+                    }else if (ficha.getCorona()){
                         return true;
                     }
                 }
@@ -413,6 +471,9 @@ public class GestorFicha {
                 if(buscarFicha(ficha.getXP() - 2,ficha.getYP()-2) == null){
                     if(ficha.esNegra()){
                         return true;
+                    } else if (ficha.getCorona()) {
+                        return true;
+
                     }
                 }
 
@@ -469,6 +530,39 @@ public class GestorFicha {
     public boolean puedeMoverse(Ficha ficha){
 
         Ficha fichaNegra = new FichaNegra(1,1);
+
+        if(ficha.getCorona()){
+            if(!ficha.esNegra()){
+                if(ficha.getYP()>1&&ficha.getXP()<8&&(fichaNegra = buscarFicha(ficha.getXP()+1,ficha.getYP()-1))==null)
+                    return true;
+                if(fichaNegra.esNegra()&&ficha.getXP()<7&&ficha.getYP()>2&&buscarFicha(ficha.getXP()+2,
+                        ficha.getYP()-2)==null)
+                    return true;
+
+                if(ficha.getYP()>1&&ficha.getXP()>1&&(fichaNegra= buscarFicha(ficha.getXP()-1,ficha.getYP()-1))==null)
+                    return true;
+                if(fichaNegra.esNegra()&&ficha.getXP()>2&&ficha.getYP()>2&&buscarFicha(ficha.getXP()-2,
+                        ficha.getYP()-2)==null)
+                    return true;
+
+            }
+            else{
+                boolean b = buscarFicha(ficha.getXP() - 2, ficha.getYP() + 2) == null;
+                if(ficha.getYP() < 8 && ficha.getXP() > 1 &&(fichaNegra = buscarFicha(ficha.getXP()-1,ficha.getYP()+1)) == null ){
+                    return true;
+                }
+                if (!fichaNegra.esNegra() && ficha.getXP() > 2 && ficha.getYP() < 7 && b) {
+                    return true;
+                }
+                if (ficha.getYP() < 8 && ficha.getXP() < 8 && (fichaNegra = buscarFicha(ficha.getXP()+1,ficha.getYP()+1)) == null){
+                    return true;
+                }
+                if (!fichaNegra.esNegra() && ficha.getXP() < 7 && ficha.getYP() < 7 && buscarFicha(ficha.getXP()+2,ficha.getYP()+2) == null){
+                    return  true;
+                }
+
+            }
+        }
         if (!ficha.esNegra()){
             boolean b = buscarFicha(ficha.getXP() - 2, ficha.getYP() + 2) == null;
             if(ficha.getYP() < 8 && ficha.getXP() > 1 &&(fichaNegra = buscarFicha(ficha.getXP()-1,ficha.getYP()+1)) == null ){

@@ -57,10 +57,6 @@ public class TableroDamas extends JPanel implements MouseListener {
             //f[i].setBounds((int) ((f[i].getXP()-0.8)*60), (int) ((8.1-f[i].getYP())*60),60,60);
             f[i].setBounds((int) ((f[i].getXP()-1)*60), (int) ((8-f[i].getYP())*60),60,60);
         }
-//        add(f[0]);
-//        add(f[1]);
-//        f[0].setBounds(2,10,60, 60);
-//        f[1].setBounds(123,10,55, 55);
 
         add(fondoJuego);
 
