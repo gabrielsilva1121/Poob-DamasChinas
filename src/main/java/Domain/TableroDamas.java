@@ -10,6 +10,10 @@ public class TableroDamas extends JPanel implements MouseListener {
 
     private GestorFicha ficha;
 
+    public static final int MODO_HVH = 0,
+                            MODO_PVH = 2;
+
+
     public TableroDamas(){
         this.setSize(500,500);
         this.setLayout(null);
@@ -33,20 +37,21 @@ public class TableroDamas extends JPanel implements MouseListener {
         repaint();
     }
 
-    /*public void definirGanador(){
-        if(fichas.getFichasR() == fichas.getFichasN()){
-            if(fichas.fichasNR()==fichas.fichasRR()){
-                JOptionPane.showMessageDialog(this,"Empate!!!");
-            }else if(fichas.fichasNR()<fichas.fichasRR())
-                JOptionPane.showMessageDialog(this,"Rojas Ganan!");
+    public void definirGanador() {
+        if (ficha.getFichasR() == ficha.getFichasN()) {
+            if (ficha.fichasNR() == ficha.fichasRR()) {
+                JOptionPane.showMessageDialog(this, "Empate!!!");
+            } else if (ficha.fichasNR() < ficha.fichasRR())
+                JOptionPane.showMessageDialog(this, "Rojas Ganan!");
             else
-                JOptionPane.showMessageDialog(this,"Negras Ganan!");
-        }else if(fichas.getFichasN()<fichas.getFichasR()){
-            JOptionPane.showMessageDialog(this,"Rojas Ganan!");
-        }else
-            JOptionPane.showMessageDialog(this,"Negras Ganan!");
+                JOptionPane.showMessageDialog(this, "Negras Ganan!");
+        } else if (ficha.getFichasN() < ficha.getFichasR()) {
+            JOptionPane.showMessageDialog(this, "Rojas Ganan!");
+        } else
+            JOptionPane.showMessageDialog(this, "Negras Ganan!");
         comenzado = false;
-    }*/
+    }
+
 
 
     public void pintar(){
@@ -70,13 +75,11 @@ public class TableroDamas extends JPanel implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         if(comenzado){
-            System.out.println(e.getX());
-            System.out.println(e.getY());
             if (ficha.validarTurno(e.getX(),e.getY())){
                 pintar();
             }
             if (!ficha.hayMoviento()){
-                //definirGanador();
+                definirGanador();
             }
         }
 

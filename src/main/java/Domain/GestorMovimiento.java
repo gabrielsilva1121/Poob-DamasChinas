@@ -28,18 +28,96 @@ public class GestorMovimiento {
         n++;
     }
 
-    public  static Movimiento[] movimientoFicha(GestorFicha gestorFicha, Ficha ficha){
-        ArrayList<Movimiento> listaMovimientos = new ArrayList<>();
-        Movimiento[] movimiento;
-        if(!ficha.esNegra()){
-            listaMovimientos.add(new Movimiento(ficha, (int) ficha.getXP(),(int )ficha.getYP()));
+    public  static Movimiento[] movimientoFicha(GestorFicha gf, Ficha f){
+        ArrayList<Movimiento> m = new ArrayList<>();
+        Movimiento[] mov;
+        if(!f.esNegra()){
+            if(!gf.puedeComer(f)){
+                if(gf.buscarFicha(f.getXP()+1,f.getYP()+1)==null&&f.getXP()!=8&&
+                        f.getYP()!=8)
+                    m.add(new Movimiento(f, (int) (f.getXP()+1), (int) (f.getYP()+1)));
+
+                if(gf.buscarFicha(f.getXP()-1,f.getYP()+1)==null&&f.getXP()>1&&f.getYP()<8)
+                    m.add(new Movimiento(f, (int) (f.getXP()-1), (int) (f.getYP()+1)));
+
+                if(gf.buscarFicha(f.getXP()+1,f.getYP()-1)==null&&f.getCorona()&&f.getXP()<8&&f.getYP()>1)
+                    m.add(new Movimiento(f, (int) (f.getXP()+1), (int) (f.getYP()-1)));
+
+                if(gf.buscarFicha(f.getXP()-1,f.getYP()-1)==null&&f.getCorona()&&f.getXP()>1&&f.getYP()>1)
+                    m.add(new Movimiento(f, (int) (f.getXP()-1), (int) (f.getYP()-1)));
+
+            }else
+            {
+                if(gf.buscarFicha(f.getXP()+1,f.getYP()+1)!=null&&
+                        !gf.buscarFicha(f.getXP()+1,f.getYP()+1).esNegra()!= !f.esNegra()&&
+                        gf.buscarFicha(f.getXP()+2,f.getYP()+2)==null&&f.getXP()<7&&f.getYP()<7)
+                    m.add(new Movimiento(f, (int) (f.getXP()+2), (int) (f.getYP()+2)));
+
+                if(gf.buscarFicha(f.getXP()-1,f.getYP()+1)!=null&&
+                        !gf.buscarFicha(f.getXP()-1,f.getYP()+1).esNegra()!= !f.esNegra()&&
+                        gf.buscarFicha(f.getXP()-2,f.getYP()+2)==null&&f.getXP()>2&&f.getYP()<7)
+                    m.add(new Movimiento(f, (int) (f.getXP()-2), (int) (f.getYP()+2)));
+
+                if(gf.buscarFicha(f.getXP()+1,f.getYP()-1)!=null&&
+                        !gf.buscarFicha(f.getXP()+1,f.getYP()-1).esNegra()!= !f.esNegra()&&
+                        gf.buscarFicha(f.getXP()+2,f.getYP()-2)==null&&
+                        f.getCorona()&&f.getXP()<7&&f.getYP()>2)
+                    m.add(new Movimiento(f, (int) (f.getXP()+2), (int) (f.getYP()-2)));
+
+                if(gf.buscarFicha(f.getXP()-1,f.getYP()-1)!=null&&
+                        !gf.buscarFicha(f.getXP()-1,f.getYP()-1).esNegra()!= !f.esNegra()&&
+                        gf.buscarFicha(f.getXP()-2,f.getYP()-2)==null&&
+                        f.getCorona()&&f.getXP()>2&&f.getYP()>2)
+                    m.add(new Movimiento(f, (int) (f.getXP()-2), (int) (f.getYP()-2)));
+            }
+
+        }else{
+            if(!gf.puedeComer(f)){
+                if(gf.buscarFicha(f.getXP()+1,f.getYP()-1)==null&&f.getXP()<8&&f.getYP()>1)
+                    m.add(new Movimiento(f, (int) (f.getXP()+1), (int) (f.getYP()-1)));
+
+                if(gf.buscarFicha(f.getXP()-1,f.getYP()-1)==null&&f.getXP()>1&&f.getYP()>1)
+                    m.add(new Movimiento(f, (int) (f.getXP()-1), (int) (f.getYP()-1)));
+
+                if(gf.buscarFicha(f.getXP()+1,f.getYP()+1)==null&&f.getCorona()&&f.getXP()!=8&&
+                        f.getYP()!=8)
+                    m.add(new Movimiento(f, (int) (f.getXP()+1), (int) (f.getYP()+1)));
+
+                if(gf.buscarFicha(f.getXP()-1,f.getYP()+1)==null&&f.getCorona()&&f.getXP()>1&&f.getYP()<8)
+                    m.add(new Movimiento(f, (int) (f.getXP()-1), (int) (f.getYP()+1)));
+
+            }else
+            {
+                if(gf.buscarFicha(f.getXP()+1,f.getYP()-1)!=null&&
+                        !gf.buscarFicha(f.getXP()+1,f.getYP()-1).esNegra()!= !f.esNegra()&&
+                        gf.buscarFicha(f.getXP()+2,f.getYP()-2)==null&&f.getXP()<7&&f.getYP()>2)
+                    m.add(new Movimiento(f, (int) (f.getXP()+2), (int) (f.getYP()-2)));
+
+                if(gf.buscarFicha(f.getXP()-1,f.getYP()-1)!=null&&
+                        !gf.buscarFicha(f.getXP()-1,f.getYP()-1).esNegra()!= !f.esNegra()&&
+                        gf.buscarFicha(f.getXP()-2,f.getYP()-2)==null&&f.getXP()>2&&f.getYP()>2)
+                    m.add(new Movimiento(f, (int) (f.getXP()-2), (int) (f.getYP()-2)));
+
+                if(gf.buscarFicha(f.getXP()+1,f.getYP()+1)!=null&&
+                        !gf.buscarFicha(f.getXP()+1,f.getYP()+1).esNegra()!= !f.esNegra()&&
+                        gf.buscarFicha(f.getXP()+2,f.getYP()+2)==null&&
+                        f.getCorona()&&f.getXP()<7&&f.getYP()<7)
+                    m.add(new Movimiento(f, (int) (f.getXP()+2), (int) (f.getYP()+2)));
+
+                if(gf.buscarFicha(f.getXP()-1,f.getYP()+1)!=null&&
+                        !gf.buscarFicha(f.getXP()-1,f.getYP()+1).esNegra()!= !f.esNegra()&&
+                        gf.buscarFicha(f.getXP()-2,f.getYP()+2)==null&&
+                        f.getCorona()&&f.getXP()>2&&f.getYP()<7)
+                    m.add(new Movimiento(f, (int) (f.getXP()-2), (int) (f.getYP()+2)));
+            }
+
         }
 
-        movimiento = new Movimiento[listaMovimientos.size()];
-        for(int i = 0; i < movimiento.length; i++){
-            movimiento[i] = listaMovimientos.get(i);
+        mov = new Movimiento[m.size()];
+        for(int i = 0; i < mov.length; i++){
+            mov[i] = m.get(i);
         }
-        return movimiento;
+        return mov;
     }
 
     public Movimiento[] getMovimientos(){

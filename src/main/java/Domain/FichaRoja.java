@@ -74,6 +74,11 @@ public  class FichaRoja extends Ficha{
         super.setIcon(Roja_RN);
     }
 
+    public void roja(int  x, int y){
+        setIcon(Roja_N);
+        prev = next = null;
+    }
+
     @Override
     public void ninjar() {
         super.ninja();

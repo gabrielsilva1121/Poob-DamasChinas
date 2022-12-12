@@ -8,7 +8,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class VentanaOpcionesJuego extends JFrame implements ActionListener {
+public class
+VentanaOpcionesJuego extends JFrame implements ActionListener {
 
     public TableroDamas tableroDamas;
 

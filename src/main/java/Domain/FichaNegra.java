@@ -56,6 +56,12 @@ public class FichaNegra extends Ficha{
         super.setIcon(Negra_JN);
     }
 
+    public  void negra(){
+        super.setIcon(Negra_N);
+        prev = next = null;
+
+    }
+
     public FichaNegra getNext() {
         return next;
     }

@@ -134,7 +134,6 @@ public class GestorFicha {
         fichita = buscarFicha(x,y);
 
         if(fichita != null){
-            //fichita.isSeleccion();
             if(fichita.isSeleccion()){
                 fichita.deseleccionar();
                 fichaSeleccionada = null;
@@ -235,7 +234,9 @@ public class GestorFicha {
                 }
                 if (a > 0 && b > 0) {
                     if (buscarFicha(x - 1, y - 1) != null && buscarFicha(x - 1, y - 1).esNegra()) {
-                        comerNegra((FichaNegra) buscarFicha(x - 1, y - 1));
+                        if(!buscarFicha(x - 1, y - 1).getNinja()){
+                            comerNegra((FichaNegra) buscarFicha(x - 1, y - 1));
+                        }
                         fichaSeleccionada.setLocation((x - 1) * 60, (8 - y) * 60);
                         fichaSeleccionada.moverFicha(x, y);
                         fichaSeleccionada.deseleccionar();
@@ -254,8 +255,10 @@ public class GestorFicha {
                     return false;
                 }
                 if (a < 0 && b > 0) {
-                    if (buscarFicha(x + 1, y - 1) != null && buscarFicha(x + 1, y - 1).esNegra()) {
-                        comerNegra((FichaNegra) buscarFicha(x + 1, y - 1));
+                    if (buscarFicha(x + 1, y - 1) != null && buscarFicha(x + 1, y - 1).esNegra() ) {
+                        if(!buscarFicha(x+1,y-1).getNinja()) {
+                            comerNegra((FichaNegra) buscarFicha(x + 1, y - 1));
+                        }
                         fichaSeleccionada.setLocation((x - 1) * 60, (8 - y) * 60);
                         fichaSeleccionada.moverFicha(x, y);
                         fichaSeleccionada.deseleccionar();
@@ -316,6 +319,8 @@ public class GestorFicha {
                             fichaSeleccionada.moverFicha(x,y);
                             fichaSeleccionada.deseleccionar();
                             fichaSeleccionada = null;
+                            return true;
+
 
                         }
                         if (y < fichaSeleccionada.getYP()) {
@@ -335,15 +340,17 @@ public class GestorFicha {
                     }
                 }
                 if (a < 0 && b < 0) {
-                    if (buscarFicha(x + 1, y + 1) != null && !buscarFicha(x + 1, y + 1).esNegra()) {
-                        comerRoja((FichaRoja) buscarFicha(x + 1, y + 1));
+                    if (buscarFicha(x + 1, y + 1) != null && !buscarFicha(x + 1, y + 1).esNegra() ) {
+                        if(!buscarFicha(x + 1, y + 1).getNinja()){
+                            comerRoja((FichaRoja) buscarFicha(x + 1, y + 1));
+                        }
                         fichaSeleccionada.setLocation((x - 1) * 60, (8 - y) * 60);
                         fichaSeleccionada.moverFicha(x, y);
                         fichaSeleccionada.deseleccionar();
                         if(y == 1){
                             fichaSeleccionada.coronar();
                         }
-                        if(y == 2 ){
+                        if(y == 2){
                             fichaSeleccionada.ninjar();
                         }
                         if (puedeComer(fichaSeleccionada)) {
@@ -356,7 +363,9 @@ public class GestorFicha {
                 }
                 if (a > 0 && b < 0) {
                     if (buscarFicha(x - 1, y + 1) != null && !buscarFicha(x - 1, y + 1).esNegra()) {
-                        comerRoja((FichaRoja) buscarFicha(x - 1, y + 1));
+                        if(!buscarFicha(x - 1, y + 1).getNinja()){
+                            comerRoja((FichaRoja) buscarFicha(x - 1, y + 1));
+                        }
                         fichaSeleccionada.setLocation((x - 1) * 60, (8 - y) * 60);
                         fichaSeleccionada.moverFicha(x, y);
                         fichaSeleccionada.deseleccionar();
@@ -443,6 +452,82 @@ public class GestorFicha {
         return  null;
     }
 
+    public  int cantidadMover(){
+        Ficha[] movimiento;
+        int i = 0, j;
+        if(turnoR){
+            movimiento = fichasRojas();
+            if(!posibilidadComer())
+                for(j=0;j< movimiento.length; j++){
+                    if(puedeMoverse(movimiento[j]))
+                        i++;
+                }
+            if(posibilidadComer())
+                for(j=0;j< movimiento.length; j++){
+                    if(puedeComer(movimiento[j]))
+                        i++;
+                }
+
+
+        }else{
+            movimiento = fichasNegras();
+            if(!posibilidadComer())
+                for(j=0;j< movimiento.length; j++){
+                    if(puedeMoverse(movimiento[j]))
+                        i++;
+                }
+            if(posibilidadComer())
+                for(j=0;j< movimiento.length; j++){
+                    if(puedeComer(movimiento[j]))
+                        i++;
+                }
+        }
+        return  i;
+    }
+
+    public Ficha[] fichasMovimiento(){
+        int i,j;
+        Ficha[] movimiento = new Ficha[cantidadMover()];
+        Ficha[] aux;
+        movimiento = new Ficha[1];
+        if(turnoR){
+            aux = fichasRojas();
+            j = 0;
+            if(!this.posibilidadComer()){
+                for(i = 0; i < aux.length; i++){
+                    if(puedeMoverse(aux[i]))
+                        movimiento[j++] = aux[i];
+
+                }
+            }
+            if(this.posibilidadComer()){
+                for(i = 0; i < aux.length; i++){
+                    if(puedeComer(aux[i]))
+                        movimiento[j++] = aux[i];
+
+                }
+            }
+        }else{
+            aux = fichasNegras();
+            j = 0;
+            if(!this.posibilidadComer()){
+                for(i = 0; i < aux.length; i++){
+                    if(puedeMoverse(aux[i]))
+                        movimiento[j++] = aux[i];
+                }
+            }
+            if(this.posibilidadComer()){
+                for(i = 0; i < aux.length; i++){
+                    if(puedeComer(aux[i]))
+                        movimiento[j++] = aux[i];
+                }
+            }
+
+
+        }
+        return  movimiento;
+    }
+
     public  boolean puedeComer(Ficha ficha){
         if (ficha.getXP() < 7 && ficha.getYP() < 7){
             if(buscarFicha(ficha.getXP()+ 1,ficha.getYP()+1) != null && !buscarFicha(ficha.getXP()+ 1,ficha.getYP()+1).esNegra()!= !ficha.esNegra()){
@@ -504,6 +589,101 @@ public class GestorFicha {
         return false;
     }
 
+    public boolean posibilidadComerE(){
+        Ficha [] fichas;
+        int i;
+
+        if(!turnoR){
+            fichas = fichasRojas();
+            for(i = 0;i<getFichasR(); i++){
+                if(this.puedeComer(fichas[i]))
+                    return true;
+            }
+        }else
+        {
+            fichas = fichasNegras();
+
+            for(i=0; i<getFichasN(); i++)
+                if(this.puedeComer(fichas[i]))
+                    return true;
+        }
+
+        return false;
+
+    }
+
+
+    public int cantidadMoverE(){
+        Ficha[] movimiento;
+        int i = 0, j;
+        if(!turnoR){
+            movimiento = fichasRojas();
+            if(!posibilidadComerE())
+                for(j=0;j< movimiento.length; j++){
+                    if(puedeMoverse(movimiento[j]))
+                        i++;
+                }
+            if(posibilidadComerE())
+                for(j=0;j< movimiento.length; j++){
+                    if(puedeComer(movimiento[j]))
+                        i++;
+                }
+
+
+        }else{
+            movimiento = fichasNegras();
+            if(!posibilidadComerE())
+                for(j=0;j< movimiento.length; j++){
+                    if(puedeMoverse(movimiento[j]))
+                        i++;
+                }
+            if(posibilidadComerE())
+                for(j=0;j< movimiento.length; j++){
+                    if(puedeComer(movimiento[j]))
+                        i++;
+                }
+        }
+
+        return i;
+
+    }
+    public Ficha[] fichasMovimientoE(){
+        int i,j;
+        Ficha[] mover = new Ficha[this.cantidadMoverE()];
+        Ficha[] auxiliar;
+        if(!turnoR){
+            auxiliar = fichasRojas();
+            j = 0;
+            if(!this.posibilidadComerE())
+                for(i=0;i<auxiliar.length;i++){
+                    if(puedeMoverse(auxiliar[i]))
+                        mover[j++]=auxiliar[i];
+                }
+
+            if(this.posibilidadComerE())
+                for(i=0;i<auxiliar.length;i++){
+                    if(puedeComer(auxiliar[i]))
+                        mover[j++]=auxiliar[i];
+                }
+        }else{
+            auxiliar = fichasNegras();
+            j = 0;
+            if(!this.posibilidadComerE())
+                for(i=0;i< auxiliar.length;i++){
+                    if(puedeMoverse(auxiliar[i]))
+                        mover[j++]=auxiliar[i];
+                }
+
+            if(this.posibilidadComerE())
+                for(i=0;i<auxiliar.length;i++){
+                    if(puedeComer(auxiliar[i]))
+                        mover[j++]=auxiliar[i];
+                }
+
+        }
+        return mover;
+    }
+
     public  boolean posibilidadComer(){
         Ficha[] ficha;
         int i;
@@ -523,6 +703,173 @@ public class GestorFicha {
             }
         }
         return false;
+    }
+
+    public void moverNegrasPC(){
+        Ficha [] fichasMovidas = fichasMovimiento();
+        Movimiento [] movimientoE = new GestorMovimiento(this,fichasMovimientoE()).getMovimientos();
+        Movimiento [] maquina = new GestorMovimiento(this,fichasMovidas).getMovimientos();
+        Movimiento [] aux;
+        Ficha auxi;
+        int i,x,y,xx,yy;
+        if(!posibilidadComer()){
+            if(movimientoE.length != 0 && puedeComer(movimientoE[0].getFicha())){
+                for(i = 0; i < movimientoE.length; i++){
+                    for(int j = 0; j < maquina.length; j++){
+                        if(movimientoE[i].getX() == maquina[j].getX() && movimientoE[i].getY() == maquina[j].getY()){
+                            fichaSeleccionada = maquina[j].getFicha();
+                            if(moverPieza(maquina[j].getX(),maquina[j].getY())){
+                                turnoR = !turnoR;
+
+                            }
+                            return;
+
+                        }
+                    }
+
+                }
+                for(i = 0; i < movimientoE.length; i++) {
+                    for (int j = 0; j < maquina.length; j++) {
+                        x = ((movimientoE[i].getX() - movimientoE[i].getFicha().getXP()) < 0) ? movimientoE[i].getX() + 1 : movimientoE[i].getX() - 1;
+                        y = ((movimientoE[i].getY() - movimientoE[i].getFicha().getYP()) < 0) ? movimientoE[i].getY() + 1 : movimientoE[i].getY() - 1;
+                        if(buscarFicha(x,y).equals(movimientoE[j].getFicha())){
+                            x = (int) maquina[j].getFicha().getXP();
+                            y = (int) maquina[j].getFicha().getYP();
+                            maquina[j].realizarMovimiento();
+                            aux = new GestorMovimiento(this,fichasMovimientoE()).getMovimientos();
+                            if(aux.length != 0 && puedeComer(aux[0].getFicha())){
+                                maquina[j].getFicha().moverFicha(x,y);
+                                break;
+                            }
+                            maquina[j].getFicha().moverFicha(x,y);
+                            fichaSeleccionada = maquina[j].getFicha();
+                            if(moverPieza(maquina[j].getX(),maquina[j].getY())){
+                                turnoR = !turnoR;
+                            }
+                            return;
+                        }
+                    }
+                }
+                for( i = 0; i < maquina.length; i++){
+                    if(maquina[i].getY() == 1 && !maquina[i].getFicha().getCorona()){
+                        fichaSeleccionada = maquina[i].getFicha();
+                        if(moverPieza(maquina[i].getX(),maquina[i].getY())){
+                            turnoR = !turnoR;
+                        }
+                        return;
+
+                    }
+
+                }
+
+                i = (int)(Math.random()*maquina.length);
+                fichaSeleccionada = maquina[i].getFicha();
+                if (moverPieza(maquina[i].getX(),maquina[i].getY())){
+                    turnoR = !turnoR;
+                }
+                return;
+
+
+            }else{
+                for(i=0;i<maquina.length;i++){
+                    if(maquina[i].getY()==1&&!maquina[i].getFicha().getCorona()){
+                        fichaSeleccionada = maquina[i].getFicha();
+                        if(moverPieza(maquina[i].getX(),maquina[i].getY()))
+                            turnoR = !turnoR;
+                        return;
+                    }
+                }
+
+                for(i=0; i<maquina.length; i++){
+                    x = (int) maquina[i].getFicha().getXP();
+                    y = (int) maquina[i].getFicha().getYP();
+                    maquina[i].realizarMovimiento();
+                    aux = new GestorMovimiento(this,fichasMovimientoE()).getMovimientos();
+                    if(aux.length!=0&&puedeComer(aux[0].getFicha())){
+                        maquina[i].getFicha().moverFicha(x,y);
+                        i++;
+                        continue;
+                    }
+                    maquina[i].getFicha().moverFicha(x,y);
+                    fichaSeleccionada = maquina[i].getFicha();
+                    if(moverPieza(maquina[i].getX(),maquina[i].getY()))
+                        turnoR = !turnoR;
+                    return;
+                }
+                i =(int)(Math.random()*maquina.length);
+
+                fichaSeleccionada = maquina[i].getFicha();
+                if(moverPieza(maquina[i].getX(),maquina[i].getY()))
+                    turnoR = !turnoR;
+                return;
+
+            }
+        }else {
+            for(i = 0; i<maquina.length; i++){
+                x = (int) maquina[i].getFicha().getXP();
+                y = (int) maquina[i].getFicha().getYP();
+                maquina[i].realizarMovimiento();
+                aux = GestorMovimiento.movimientoFicha(this,maquina[i].getFicha());
+                for(int j=0; j<aux.length; j++){
+                    if(aux[j].getX()!=x||aux[j].getY()!=y){
+                        xx = (int)aux[j].getFicha().getXP();
+                        yy = (int) aux[j].getFicha().getYP();
+                        aux[j].realizarMovimiento();
+                        if(GestorMovimiento.movimientoFicha(this,aux[j].getFicha()).length<1&&
+                                aux[j].getFicha().getCorona())
+                        {
+                            maquina[i].getFicha().moverFicha(x,y);
+                            fichaSeleccionada = maquina[i].getFicha();
+                            if(moverPieza(maquina[i].getX(),maquina[i].getY()))
+                                turnoR = !turnoR;
+                            return;
+                        }
+                        if(GestorMovimiento.movimientoFicha(this,aux[j].getFicha()).length<0&&
+                                !aux[j].getFicha().getCorona()){
+                            maquina[i].getFicha().moverFicha(x,y);
+                            fichaSeleccionada = maquina[i].getFicha();
+                            if(moverPieza(maquina[i].getX(),maquina[i].getY()))
+                                turnoR = !turnoR;
+                            return;
+
+                        }
+                        aux[j].getFicha().moverFicha(xx,yy);
+                    }
+
+                }
+                maquina[i].getFicha().moverFicha(x,y);
+            }
+
+            for(i = 0; i<maquina.length; i++){
+                x = (int) maquina[i].getFicha().getXP();
+                y = (int) maquina[i].getFicha().getYP();
+                xx = ((maquina[i].getX()-maquina[i].getFicha().getXP())<0)?maquina[i].getX()+1:maquina[i].getX()-1;
+                yy = ((maquina[i].getY()-maquina[i].getFicha().getYP())<0)?maquina[i].getY()+1:maquina[i].getY()-1;
+                maquina[i].realizarMovimiento();
+                comerRoja((FichaRoja)buscarFicha(xx,yy));
+                aux = new GestorMovimiento(this,fichasMovimientoE()).getMovimientos();
+                if(aux.length!=0&&!puedeComer(aux[0].getFicha())){
+                    agregarRoja(xx,yy);
+                    maquina[i].getFicha().moverFicha(x,y);
+                    fichaSeleccionada = maquina[i].getFicha();
+                    if(moverPieza(maquina[i].getX(),maquina[i].getY()))
+                        turnoR = !turnoR;
+                    return;
+                }
+                agregarRoja(xx,yy);
+                maquina[i].getFicha().moverFicha(x,y);
+            }
+            i =(int)(Math.random()*maquina.length);
+
+            fichaSeleccionada = maquina[i].getFicha();
+            if(moverPieza(maquina[i].getX(),maquina[i].getY()))
+                turnoR = !turnoR;
+            return;
+
+
+
+
+        }
     }
 
     public boolean hayMoviento(){
