@@ -13,10 +13,14 @@ public class NuevoJuego extends JDialog implements ActionListener {
 
     private JComboBox comboModos;
 
+    private String[] modos;
+
 
     private JButton aceptar, cancelar;
 
     public NuevoJuego(TableroDamas tablero){
+
+        this.modos = new String[]{ "H vs H", "H vs PC"};
 
         tableroDamas = tablero;
 
@@ -27,14 +31,19 @@ public class NuevoJuego extends JDialog implements ActionListener {
         this.setLayout(new FlowLayout());
         this.setModal(true);
 
+        modos = new String[]{
+                "H vs H",
+                "H vs PC",
+        };
+
             rojas = new JLabel("rojas - ");
             negras = new JLabel("negras - ");
-            //comboModos = new JComboBox(modos)
+            comboModos = new JComboBox(modos);
             aceptar = new JButton("comenzar juego ");
             cancelar = new JButton("cancelar ");
-            //comboModos.setEditable(false);
+            comboModos.setEditable(false);
                 this.add(rojas);
-               //this.add(comboModos);
+               this.add(comboModos);
                this.add(negras);
                 this.add(aceptar);
               this.add(cancelar);
@@ -49,9 +58,9 @@ public class NuevoJuego extends JDialog implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource().equals(aceptar)){
-            tableroDamas.comenzarPartida();
+            tableroDamas.comenzarPartida(comboModos.getSelectedIndex());
         }
-        //comboModos.setSelectedIndex(0);
+        comboModos.setSelectedIndex(0);
         this.dispose();
 
     }

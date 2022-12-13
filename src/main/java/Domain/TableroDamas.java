@@ -11,11 +11,11 @@ public class TableroDamas extends JPanel implements MouseListener {
     private GestorFicha ficha;
 
     public static final int MODO_HVH = 0,
-                            MODO_PVH = 2;
+            MODO_PVH = 1;
 
 
-    public TableroDamas(){
-        this.setSize(500,500);
+    public TableroDamas() {
+        this.setSize(500, 500);
         this.setLayout(null);
         this.setVisible(true);
         this.setOpaque(false);
@@ -23,14 +23,16 @@ public class TableroDamas extends JPanel implements MouseListener {
         fondoJuego = new JLabel();
         fondoJuego.setIcon(new ImageIcon("tableroJuego.png"));
         this.add(fondoJuego);
-        fondoJuego.setSize(500,500);
+        fondoJuego.setSize(500, 500);
         //fondoJuego.setBounds(0,0,490,490);
 
 
     }
 
-    public void comenzarPartida(){
+    public void comenzarPartida(int modo) {
         ficha = new GestorFicha();
+        ficha.setTurnoR(true);
+        ficha.setMode(modo);
         comenzado = true;
 
         pintar();
@@ -52,19 +54,26 @@ public class TableroDamas extends JPanel implements MouseListener {
         comenzado = false;
     }
 
+    public void cambiarModo(int modo) {
+        ficha.setMode(modo);
+    }
 
 
-    public void pintar(){
+    public void pintar() {
         Ficha[] f = ficha.getFichas();
         removeAll();
-        for(int i= 0; i<f.length; i++){
+        for (int i = 0; i < f.length; i++) {
             add(f[i]);
             //f[i].setBounds((int) ((f[i].getXP()-0.8)*60), (int) ((8.1-f[i].getYP())*60),60,60);
-            f[i].setBounds((int) ((f[i].getXP()-1)*60), (int) ((8-f[i].getYP())*60),60,60);
+            f[i].setBounds((int) ((f[i].getXP() - 1) * 60), (int) ((8 - f[i].getYP()) * 60), 60, 60);
         }
 
         add(fondoJuego);
 
+    }
+
+    public boolean getComenzando() {
+        return (this.comenzado);
     }
 
     @Override
@@ -74,18 +83,46 @@ public class TableroDamas extends JPanel implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if(comenzado){
-            if (ficha.validarTurno(e.getX(),e.getY())){
-                pintar();
+        if (comenzado) {
+            if (ficha.getMode() == MODO_HVH) {
+                if (ficha.validarTurno(e.getX(), e.getY())) {
+                    pintar();
+                    if(!ficha.hayMoviento()){
+                        definirGanador();
+                    }
+                }
+
+                return;
             }
-            if (!ficha.hayMoviento()){
-                definirGanador();
+            int mm = ficha.getMode();
+
+            if (ficha.getMode() == MODO_PVH){
+                if(ficha.getTurnoR()){
+                    if (ficha.validarTurno(e.getX(), e.getY())) {
+                        pintar();
+                        if(!ficha.hayMoviento()){
+                            definirGanador();
+                        }
+                        return;
+                    }
+
+                }
+                if(!ficha.getTurnoR()){
+                    ficha.moverNegrasPC();
+                    pintar();
+                    if(!ficha.hayMoviento())
+                        this.definirGanador();
+                        return;
+                }
             }
+
+
+
+
         }
-
-        return;
-
     }
+
+
 
     @Override
     public void mouseReleased(MouseEvent e) {

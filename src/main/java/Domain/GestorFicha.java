@@ -11,6 +11,7 @@ public class GestorFicha {
     private Ficha fichaSeleccionada;
 
     private boolean turnoR;
+    private int mode;
 
     public GestorFicha(){
         inicioN = null;
@@ -22,6 +23,12 @@ public class GestorFicha {
     }
 
     public boolean getTurnoR() {return (this.turnoR);}
+
+    public int getMode(){return(this.mode);}
+
+    public  void  setMode(int mode){
+        this.mode = mode;
+    }
 
     public void setTurnoR(boolean turnoR) {this.turnoR = turnoR;}
 

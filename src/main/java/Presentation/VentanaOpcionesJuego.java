@@ -17,9 +17,9 @@ VentanaOpcionesJuego extends JFrame implements ActionListener {
 
     public JMenuBar menuBar;
 
-    public JMenu mArchivo;
+    public JMenu mArchivo, mCambiarModo;
 
-    public JMenuItem mNuevoJuego, mSalir;
+    public JMenuItem mNuevoJuego, mSalir, mHvH, mHvPC;
 
     public VentanaOpcionesJuego(){
         super("Proyecto Juego Damas");
@@ -45,6 +45,17 @@ VentanaOpcionesJuego extends JFrame implements ActionListener {
                 mSalir = new JMenuItem("salir");
                 mArchivo.add(mSalir);
                 mSalir.addActionListener(this);
+
+            mCambiarModo = new JMenu("Cambiar modo");
+            menuBar.add(mCambiarModo);
+
+                mHvH = new JMenuItem("H vs H");
+                mCambiarModo.add(mHvH);
+                mHvH.addActionListener(this);
+
+                mHvPC = new JMenuItem("H vs PC");
+                mCambiarModo.add(mHvPC);
+                mHvPC.addActionListener(this);
 
 
                 tableroDamas = new TableroDamas();
@@ -73,6 +84,10 @@ VentanaOpcionesJuego extends JFrame implements ActionListener {
             nuevo.show();
         } else if (e.getSource().equals(mSalir)) {
             this.dispose();
+
+        } else if (e.getSource().equals(mHvH)) {
+            if(tableroDamas.getComenzando())
+                tableroDamas.cambiarModo(tableroDamas.MODO_HVH);
 
         }
 
